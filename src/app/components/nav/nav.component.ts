@@ -6,6 +6,8 @@ import { MenuItem } from 'src/app/types/MenuItem.type';
 import { MenuIcons } from 'src/app/types/MenuIcons';
 import { AppRoutes } from 'src/app/routes/AppRoutes';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { LoginFormComponent } from '../auth/login-form/login-form.component';
+
 
 @Component({
   selector: 'app-nav',
@@ -14,8 +16,10 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 })
 export class NavComponent {
 
+  
   drawMenu: boolean = false;
   menuList: MenuItem[] = [
+    
     {
       text: "Students",
       icon: MenuIcons.STUDENTS,
@@ -40,14 +44,12 @@ export class NavComponent {
 
 
 
-
-
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private _storageService: StorageService ) {}
+  constructor(private breakpointObserver: BreakpointObserver, public _storageService: StorageService) {}
 
 }
