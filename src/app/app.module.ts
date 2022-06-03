@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
 import {HttpClientModule} from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './modules/material-modules/material.module';
 
 import { AppComponent } from './app.component';
@@ -19,6 +19,11 @@ import { LoginFormComponent } from './components/auth/login-form/login-form.comp
 import { RegisterFormComponent } from './components/auth/register-form/register-form.component';
 import { StudentsTableComponent } from './components/students/students-table/students-table.component';
 import { StudentDetailPageComponent } from './pages/student-detail-page/student-detail-page.component';
+import { CoursesComponent } from './components/courses/courses.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import {FlexLayoutModule} from '@angular/flex-layout'
 
 
 @NgModule({
@@ -35,6 +40,8 @@ import { StudentDetailPageComponent } from './pages/student-detail-page/student-
     RegisterFormComponent,
     StudentsTableComponent,
     StudentDetailPageComponent,
+    CoursesComponent,
+   
     
   ],
   imports: [
@@ -43,7 +50,13 @@ import { StudentDetailPageComponent } from './pages/student-detail-page/student-
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     MaterialModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    FormsModule
+    
     
   ],
   providers: [],

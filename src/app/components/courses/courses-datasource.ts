@@ -3,62 +3,57 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { Student } from 'src/app/types/models/Student.type';
-import { StudentsService } from 'src/app/services/students/students.service';
 
- 
+// TODO: Replace this with your own data model type
+export interface CoursesItem {
+  name: string;
+  id: number;
+}
 
-
-let students:Student[] = [];
-let studentsList:Student[] = [
-  { 
-    id: 1,
-    firstName:'Yoel',
-    lastName: 'Ferrera',
-    dob: new Date(),
-    courses: []
-
-},{ 
-  id: 2,
-  firstName:'Rodriguez',
-  lastName: 'Gonzales',
-  dob: new Date(),
-  courses: []
-
-},{ 
-  id: 3,
-  firstName:'Susana',
-  lastName: 'Diaz',
-  dob: new Date(),
-  courses: []
-
-},
+// TODO: replace this with real data from your application
+const EXAMPLE_DATA: CoursesItem[] = [
+  {id: 1, name: 'Hydrogen'},
+  {id: 2, name: 'Helium'},
+  {id: 3, name: 'Lithium'},
+  {id: 4, name: 'Beryllium'},
+  {id: 5, name: 'Boron'},
+  {id: 6, name: 'Carbon'},
+  {id: 7, name: 'Nitrogen'},
+  {id: 8, name: 'Oxygen'},
+  {id: 9, name: 'Fluorine'},
+  {id: 10, name: 'Neon'},
+  {id: 11, name: 'Sodium'},
+  {id: 12, name: 'Magnesium'},
+  {id: 13, name: 'Aluminum'},
+  {id: 14, name: 'Silicon'},
+  {id: 15, name: 'Phosphorus'},
+  {id: 16, name: 'Sulfur'},
+  {id: 17, name: 'Chlorine'},
+  {id: 18, name: 'Argon'},
+  {id: 19, name: 'Potassium'},
+  {id: 20, name: 'Calcium'},
 ];
 
-
-export class StudentsTableDataSource extends DataSource<Student> { 
-  data: Student [] = studentsList;
+/**
+ * Data source for the Courses view. This class should
+ * encapsulate all logic for fetching and manipulating the displayed data
+ * (including sorting, pagination, and filtering).
+ */
+export class CoursesDataSource extends DataSource<CoursesItem> {
+  data: CoursesItem[] = EXAMPLE_DATA;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
-      
-  constructor(private _studentsService: StudentsService) {
+
+  constructor() {
     super();
-     
   }
-  allStudents(){
-    this._studentsService.getStudents().subscribe((res:any)=>
-    students = res)
-  
-  }
-    
-  
- 
+
   /**
    * Connect this data source to the table. The table will only update when
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Student[]> {
+  connect(): Observable<CoursesItem[]> {
     if (this.paginator && this.sort) {
       // Combine everything that affects the rendered data into one update
       // stream for the data-table to consume.
@@ -81,7 +76,7 @@ export class StudentsTableDataSource extends DataSource<Student> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: Student[]): Student[] {
+  private getPagedData(data: CoursesItem[]): CoursesItem[] {
     if (this.paginator) {
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       return data.splice(startIndex, this.paginator.pageSize);
@@ -94,43 +89,23 @@ export class StudentsTableDataSource extends DataSource<Student> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: Student[]): Student[] {
+  private getSortedData(data: CoursesItem[]): CoursesItem[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
     }
-    
+
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
+        case 'name': return compare(a.name, b.name, isAsc);
         case 'id': return compare(+a.id, +b.id, isAsc);
-        case 'firstName': return compare(a.firstName, b.firstName, isAsc);      
-        case 'lastName' : return compare(a.lastName, b.lastName, isAsc);
         default: return 0;
       }
     });
   }
-
-  public filterData(firstName?: string, lastName?: string, birthday?:Date): Student[]{
-    return this.data.filter((student:Student, index: number)=>{
-      if ( firstName && !lastName){
-        return student.firstName.includes(firstName)
-      }else if (!firstName && lastName){
-        return student.firstName.includes(lastName)
-      }else if (firstName && lastName){
-        return student.firstName.includes(firstName) &&  student.firstName.includes(lastName);
-      }
-      return student;
-      
-    })
-  }
 }
-
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 function compare(a: string | number, b: string | number, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
-
-
-
-

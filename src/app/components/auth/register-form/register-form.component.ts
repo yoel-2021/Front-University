@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
+
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html',
@@ -50,6 +51,7 @@ export class RegisterFormComponent implements OnInit {
         this.registerForm.reset();
         console.log(this.registerForm.value);
         alert("Register was suceed");
+        
     },
     error: (error: any)=>{
       let {name,password,email,lastName,createBy,createdAt,idUserType,Id,updateBy,updatedAt,deleteBy,deletedAt,isDeleted}= this.registerForm?.value;

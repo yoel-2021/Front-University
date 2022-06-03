@@ -8,6 +8,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 
 
 
+
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
@@ -62,7 +63,6 @@ export class LoginFormComponent implements OnInit {
       complete: () => {
         console.info(`Authentication process finished`);
         this.loginForm.reset();
-
       }
       
     }
